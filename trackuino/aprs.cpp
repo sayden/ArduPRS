@@ -17,10 +17,7 @@
 
 #include "config.h"
 #include "ax25.h"
-#include "gps.h"
 #include "aprs.h"
-#include "sensors_avr.h"
-#include "sensors_pic32.h"
 #include <stdio.h>
 #include <stdlib.h>
 #if (ARDUINO + 1) >= 100
@@ -37,7 +34,9 @@ float meters_to_feet(float m)
 }
 
 // Exported functions
-void aprs_send()
+void aprs_send(char gps_time[], char gps_aprs_lat[], char gps_aprs_lon[], double gps_course,
+  double gps_speed, float gps_altitude, char int_temperature[], char ext_temperature[],
+  char sensors_vin[])
 {
   char temp[12];                   // Temperature (int/ext)
   const struct s_address addresses[] = { 
@@ -53,7 +52,7 @@ void aprs_send()
 
   ax25_send_header(addresses, sizeof(addresses)/sizeof(s_address));
   ax25_send_byte('/');                // Report w/ timestamp, no APRS messaging. $ = NMEA raw data
-  // ax25_send_string("021709z");     // 021709z = 2nd day of the month, 17:09 zulu (UTC/GMT)
+  ax25_send_string("021709z");     // 021709z = 2nd day of the month, 17:09 zulu (UTC/GMT)
   ax25_send_string(gps_time);         // 170915 = 17h:09m:15s zulu (not allowed in Status Reports)
   ax25_send_byte('h');
   ax25_send_string(gps_aprs_lat);     // Lat: 38deg and 22.20 min (.20 are NOT seconds, but 1/100th of minutes)
@@ -69,13 +68,13 @@ void aprs_send()
   snprintf(temp, 7, "%06ld", (long)(meters_to_feet(gps_altitude) + 0.5));
   ax25_send_string(temp);
   ax25_send_string("/Ti=");
-  snprintf(temp, 6, "%d", sensors_int_lm60());
+  snprintf(temp, 6, "%d", int_temperature);
   ax25_send_string(temp);
   ax25_send_string("/Te=");
-  snprintf(temp, 6, "%d", sensors_ext_lm60());
+  snprintf(temp, 6, "%d", ext_temperature);
   ax25_send_string(temp);
   ax25_send_string("/V=");
-  snprintf(temp, 6, "%d", sensors_vin());
+  snprintf(temp, 6, "%d", sensors_vin);
   ax25_send_string(temp);
   ax25_send_byte(' ');
   ax25_send_string(APRS_COMMENT);     // Comment

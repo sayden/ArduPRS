@@ -18,6 +18,8 @@
 #ifndef __APRS_H__
 #define __APRS_H__
 
-void aprs_send();
+void aprs_send(char gps_time[], char gps_aprs_lat[], char gps_aprs_lon[], double gps_course,
+  double gps_speed, float gps_altitude, char int_temperature[], char ext_temperature[],
+  char sensors_vin[]);
 
 #endif
