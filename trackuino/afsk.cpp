@@ -30,7 +30,6 @@
 
 #include "config.h"
 #include "afsk_avr.h"
-#include "afsk_pic32.h"
 #include "pin.h"
 #include "radio_hx1.h"
 #if (ARDUINO + 1) >= 100
@@ -247,3 +246,4 @@ void afsk_debug()
   sample_overruns = 0;
 }
 #endif
+
