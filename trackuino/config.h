@@ -39,7 +39,7 @@
 // - Cars:       9
 // - Home:       0
 // - IGate:      5
-#define S_CALLSIGN      "MYCALL"
+#define S_CALLSIGN      "TUTRHA"
 #define S_CALLSIGN_ID   11
 
 // Destination callsign: APRS (with SSID=0) is usually okay.
@@ -82,8 +82,8 @@
 // respectively. The first balloon will transmit at 00:00:00, 00:01:00, 
 // 00:02:00, etc. and the second balloon will transmit at 00:00:30, 00:01:30,
 // 00:02:30, etc.
-#define APRS_SLOT     0     // seconds. -1 disables slotted transmissions
-#define APRS_PERIOD   60    // seconds
+#define APRS_SLOT     -1     // seconds. -1 disables slotted transmissions
+#define APRS_PERIOD   5    // seconds
 
 // GPS baud rate (in bits per second). This is also the baud rate at which
 // debug data will be printed out the serial port.
@@ -104,7 +104,7 @@
 // de-emphasizing the 1200 tone by 6 dB and it might greatly improve
 // reception at the expense of poorer FM deviation, which translates
 // into an overall lower amplitude of the received signal. 1 = yes, 0 = no.
-#define PRE_EMPHASIS    1
+#define PRE_EMPHASIS    0
 
 // --------------------------------------------------------------------------
 // Radio config (radio_hx1.cpp)
