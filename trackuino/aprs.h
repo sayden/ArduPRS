@@ -22,4 +22,7 @@ void aprs_send(char gps_time[], char gps_aprs_lat[], char gps_aprs_lon[], double
   double gps_speed, float gps_altitude, char int_temperature[], char ext_temperature[],
   char sensors_vin[]);
 
+void aprs_send_header_mesage(char header[], char message[]);
+void aprs_send_raw(char message[]);
+
 #endif

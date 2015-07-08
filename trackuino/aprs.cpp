@@ -33,10 +33,36 @@ float meters_to_feet(float m)
   return m / 0.3048;
 }
 
+void aprs_send_header_mesage(char header[], char message[]){
+  ax25_send_header(header, sizeof(header));
+  ax25_send_byte('/');                // Report w/ timestamp, no APRS messaging. $ = NMEA raw data
+  ax25_send_string(message);
+  ax25_send_byte(' ');
+  ax25_send_footer();
+
+  ax25_flush_frame();
+}
+
+void aprs_send_raw(char message[]){
+  ax25_send_header();
+  ax25_send_string(message);
+  ax25_send_byte(' ');
+  ax25_send_footer();
+
+  ax25_flush_frame();
+}
+
 // Exported functions
-void aprs_send(char gps_time[], char gps_aprs_lat[], char gps_aprs_lon[], double gps_course,
-  double gps_speed, float gps_altitude, char int_temperature[], char ext_temperature[],
-  char sensors_vin[])
+void aprs_send( char gps_time[], 
+                char gps_aprs_lat[],
+                char gps_aprs_lon[],
+                double gps_course,
+                double gps_speed,
+                float gps_altitude,
+                char int_temperature[],
+                char ext_temperature[],
+                char sensors_vin[]
+              )
 {
   char temp[12];                   // Temperature (int/ext)
   const struct s_address addresses[] = { 
